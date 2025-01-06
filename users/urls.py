@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import UserRegisterView, UserProfileView, AddressListView,AddressUpdateView, ReferralView, ConvertPointsView,LoginView
+from .views import UserRegisterView, UserProfileView,LogoutView, AddressListView,AddressUpdateView, ReferralView, ConvertPointsView,LoginView
 
 urlpatterns = [
     path('register/', UserRegisterView.as_view(), name='user-register'),
@@ -9,4 +9,6 @@ urlpatterns = [
     path('addresses/<int:id>/', AddressUpdateView.as_view(), name='address-update'),
     path('referrals/', ReferralView.as_view(), name='user-referrals'),  # Added ReferralView here
     path('login/', LoginView.as_view(), name='user-login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
+
 ]
