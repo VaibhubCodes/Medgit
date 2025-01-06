@@ -134,9 +134,10 @@ class LogoutView(APIView):
 
     def post(self, request):
         try:
-            # Delete the user's token
-            request.user.auth_token.delete()
+            # Check if the user has a token and delete it
+            if hasattr(request.user, 'auth_token'):
+                request.user.auth_token.delete()
             return Response({"message": "Logged out successfully"}, status=status.HTTP_200_OK)
         except Exception as e:
-            logging.error(f"Logout failed for user {request.user.username}: {str(e)}")
+            logging.error(f"Logout failed for user {request.user.username if request.user else 'Unknown'}: {str(e)}")
             return Response({"error": "Logout failed. Please try again."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
