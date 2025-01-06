@@ -129,3 +129,14 @@ class ConvertPointsView(views.APIView):
             "wallet_balance": user.wallet_balance,
             "reward_points": user.reward_points  # Return updated reward points
         })
+class LogoutView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        try:
+            # Delete the user's token
+            request.user.auth_token.delete()
+            return Response({"message": "Logged out successfully"}, status=status.HTTP_200_OK)
+        except Exception as e:
+            logging.error(f"Logout failed for user {request.user.username}: {str(e)}")
+            return Response({"error": "Logout failed. Please try again."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
